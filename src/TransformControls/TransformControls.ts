@@ -377,7 +377,7 @@ export class TransformControls extends Object3D {
       this.offset.copy(this.pointEnd).sub(this.pointStart);
 
       const ROTATION_SPEED =
-        2000 /
+        20 /
         this.worldPosition.distanceTo(
           this.tempVector.setFromMatrixPosition(this.camera.matrixWorld),
         );
