@@ -5,6 +5,7 @@ import {
   Scene,
   WebGLRenderer,
 } from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { ColoredCube } from "./ColoredCube";
 import { DualController } from "./DualController";
 
@@ -28,6 +29,9 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor(0x808080);
 document.body.appendChild(renderer.domElement);
 
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true; // an example setting, you can customize as needed
+
 // Create an instance of ColoredCube
 const coloredCube = new ColoredCube(0x00ff00, 0xff0000); // Green face color, black edge color
 
@@ -39,7 +43,12 @@ const axesHelper = new AxesHelper(5); // Length of the axes
 scene.add(axesHelper);
 
 // Create an instance of DualController and attach the coloredCube
-const dualController = new DualController(scene, camera, renderer.domElement);
+const dualController = new DualController(
+  scene,
+  camera,
+  renderer.domElement,
+  controls,
+);
 
 const matrix4 = new Matrix4().fromArray([
   0.49999999999999994, -0.5000000000000004, 0.7071067811865477, 2,
@@ -70,6 +79,8 @@ function animate() {
   // Keep the size of the axes constant
   const scale = camera.position.length() / 10; // Adjust the divisor as needed
   axesHelper.scale.set(scale, scale, scale);
+
+  controls.update();
 
   renderer.render(scene, camera);
 }

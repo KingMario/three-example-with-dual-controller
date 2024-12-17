@@ -1,3 +1,4 @@
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import {
   MathUtils,
   Matrix4,
@@ -31,6 +32,7 @@ export class DualController {
     private scene: Scene,
     private camera: PerspectiveCamera | OrthographicCamera,
     private domElement: HTMLCanvasElement,
+    private orbitControls: OrbitControls,
   ) {
     // Create TransformControls for translation and rotation
     this.translateControls = this.createTransformControls("translate");
@@ -88,6 +90,8 @@ export class DualController {
 
   // Event handler for dragging-changed events
   private onDraggingChanged = (event: any) => {
+    this.orbitControls.enabled = !event.value;
+
     if (event.target.name === "translateControls") {
       this.rotateControls.enabled = !event.value;
     } else {
